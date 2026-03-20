@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Day 3 — How to Start Using AiBot in 3 Minutes</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #d6f0f3;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px 60px;
+}
+.page { max-width: 680px; width: 100%; }
+.banner { border-radius: 16px 16px 0 0; overflow: hidden; line-height: 0; }
+.banner img { width: 100%; display: block; }
+.accent-bar { height: 4px; background: linear-gradient(90deg, #3ecfdf, #22b8cf, #3ecfdf); }
+.card {
+  background: #fff;
+  border: 1px solid #d4eef1;
+  border-top: none;
+  border-radius: 0 0 16px 16px;
+  padding: 36px 32px 40px;
+}
+.lang-bar {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 28px; padding-bottom: 18px;
+  border-bottom: 1px solid #e8f4f6;
+}
+.lang-bar a {
+  font-size: 13px; font-weight: 500; color: #0e7490;
+  text-decoration: none; padding: 5px 14px;
+  border-radius: 18px; border: 1px solid transparent;
+  cursor: pointer; transition: all 0.2s;
+}
+.lang-bar a:hover { background: #e0f5f8; }
+.lang-bar a.active { background: #0e7490; color: #fff; }
+.lang-section { display: none; }
+.lang-section.active { display: block; }
+h1 { font-size: 26px; font-weight: 700; color: #0f172a; line-height: 1.35; margin-bottom: 12px; }
+.subtitle { font-size: 15px; color: #475569; line-height: 1.7; margin-bottom: 28px; }
+.step-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 6px; margin-top: 22px; }
+.step-text { font-size: 14.5px; color: #334155; line-height: 1.75; margin-bottom: 4px; }
+.product-box {
+  background: #f0f9fa; border-radius: 10px;
+  padding: 14px 18px; margin: 10px 0 4px;
+  font-size: 14px; color: #334155; line-height: 1.7;
+}
+.product-box strong { color: #0e7490; }
+.section-title { font-size: 15px; font-weight: 700; color: #0f172a; margin-top: 28px; margin-bottom: 8px; }
+.tip-box {
+  background: #f0f9fa; border-left: 3px solid #22b8cf;
+  border-radius: 0 10px 10px 0; padding: 14px 18px;
+  margin: 10px 0; font-size: 14px; color: #334155; line-height: 1.75;
+}
+.tip-box strong { color: #0e7490; }
+.divider { border: none; border-top: 1px dashed #d4eef1; margin: 28px 0; }
+.footer-text { font-size: 14.5px; color: #334155; line-height: 1.7; margin-top: 20px; }
+.cta-box {
+  background: linear-gradient(135deg, #e0f5f8, #f0f9fa);
+  border-radius: 10px; padding: 16px 18px;
+  margin-top: 20px; font-size: 14px; color: #334155; line-height: 1.7;
+}
+.cta-box a { color: #0e7490; word-break: break-all; }
+.footer-note { font-size: 13.5px; color: #64748b; margin-top: 20px; line-height: 1.6; font-style: italic; }
+@media (max-width: 520px) {
+  .card { padding: 24px 18px 32px; }
+  h1 { font-size: 22px; }
+  .lang-bar a { font-size: 12px; padding: 4px 10px; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="banner">
+    <img src="data:image/jpeg;base64,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" alt="BitradeX" />
+  </div>
+  <div class="accent-bar"></div>
+  <div class="card">
+
+    <div class="lang-bar">
+      <a class="active" onclick="switchLang('en')">English</a>
+      <a onclick="switchLang('zh')">中文</a>
+      <a onclick="switchLang('ja')">日本語</a>
+      <a onclick="switchLang('ko')">한국어</a>
+      <a onclick="switchLang('vi')">Tiếng Việt</a>
+      <a onclick="switchLang('pt')">Português</a>
+      <a onclick="switchLang('ru')">Русский</a>
+    </div>
+
+    <!-- English -->
+    <div class="lang-section active" id="lang-en">
+      <h1>Day 3 — How to Start Using AiBot in 3 Minutes</h1>
+      <p class="subtitle">Yesterday we covered what AiBot offers. Today let's walk through how to actually get started.</p>
+
+      <div class="step-title">Step 1 — Open AiBot</div>
+      <p class="step-text">Log into your BitradeX account, find AiBot in the top navigation bar, and click in.</p>
+
+      <div class="step-title">Step 2 — Choose your product</div>
+      <p class="step-text">You'll see two categories:</p>
+      <div class="product-box">
+        <strong>AI 30-360</strong> — lock-up products. Pick your preferred duration: 30D / 90D / 180D / 360D. Longer lock = higher expected yield.<br><br>
+        <strong>AI Daily</strong> — flexible product. No lock-up, withdraw anytime. Great if you want to test the waters first.
+      </div>
+
+      <div class="step-title">Step 3 — Deposit and activate</div>
+      <p class="step-text">Enter the amount you want to invest, confirm the order, and you're set. Earnings start from the next day.</p>
+
+      <hr class="divider">
+
+      <div class="section-title">Which one should I pick?</div>
+      <div class="tip-box">
+        <strong>New to AiBot?</strong> Start with AI Daily. Zero lock-up, you can withdraw anytime, and it lets you see how the bot performs before committing to a longer plan.<br><br>
+        <strong>Already familiar and want higher returns?</strong> AI 360D is the officially recommended tier with the highest projected yield.
+      </div>
+
+      <div class="section-title">Where to check your earnings</div>
+      <p class="step-text">Go to AiBot page, click "My AI Account". You'll see three numbers: total assets under management, yesterday's earnings, and cumulative earnings. Everything updates daily.</p>
+
+      <hr class="divider">
+
+      <p class="footer-text">That's it. Three steps and you're in. Questions? Ask below.</p>
+
+      <div class="cta-box">Haven't registered yet? Sign up now so you can claim your campaign rewards at the end.<br>
+        <a href="https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB" target="_blank">https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB</a>
+      </div>
+
+      <p class="footer-note">Tomorrow we bring you our first Alpha drop — sectors and projects worth watching this week.</p>
+    </div>
+
+    <!-- 中文 -->
+    <div class="lang-section" id="lang-zh">
+      <h1>Day 3 — 三分钟学会使用 AiBot</h1>
+      <p class="subtitle">昨天我们介绍了 AiBot 提供的产品，今天来看看怎么实际操作。</p>
+
+      <div class="step-title">第一步 — 打开 AiBot</div>
+      <p class="step-text">登录你的 BitradeX 账户，在顶部导航栏找到 AiBot，点击进入。</p>
+
+      <div class="step-title">第二步 — 选择产品</div>
+      <p class="step-text">你会看到两个类别：</p>
+      <div class="product-box">
+        <strong>AI 30-360</strong> — 锁仓产品。选择你想要的期限：30D / 90D / 180D / 360D。锁仓时间越长，预期收益越高。<br><br>
+        <strong>AI Daily</strong> — 灵活产品。无锁仓期，随时可提现。适合想先试试水的用户。
+      </div>
+
+      <div class="step-title">第三步 — 充值并激活</div>
+      <p class="step-text">输入你想投入的金额，确认订单，搞定。收益从第二天开始计算。</p>
+
+      <hr class="divider">
+
+      <div class="section-title">我应该选哪个？</div>
+      <div class="tip-box">
+        <strong>刚接触 AiBot？</strong>建议从 AI Daily 开始。零锁仓，随时可提现，先看看机器人的实际表现，再决定是否选择更长期的方案。<br><br>
+        <strong>已经了解，想要更高收益？</strong>AI 360D 是官方推荐的产品，预期收益最高。
+      </div>
+
+      <div class="section-title">在哪里查看收益？</div>
+      <p class="step-text">进入 AiBot 页面，点击「我的 AI 账户」。你会看到三个数字：管理资产总额、昨日收益、累计收益。每天更新。</p>
+
+      <hr class="divider">
+
+      <p class="footer-text">就这么简单，三步搞定。有问题？在下方留言。</p>
+
+      <div class="cta-box">还没注册？现在注册，活动结束后即可领取奖励。<br>
+        <a href="https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB" target="_blank">https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB</a>
+      </div>
+
+      <p class="footer-note">明天我们将发布第一期 Alpha 精选，聊聊本周值得关注的板块和项目。</p>
+    </div>
+
+    <!-- 日本語 -->
+    <div class="lang-section" id="lang-ja">
+      <h1>Day 3 — AiBotを3分で始める方法</h1>
+      <p class="subtitle">昨日はAiBotの概要をお伝えしました。今日は実際の始め方を見ていきましょう。</p>
+
+      <div class="step-title">ステップ1 — AiBotを開く</div>
+      <p class="step-text">BitradeXアカウントにログインし、上部ナビゲーションバーからAiBotを見つけてクリックします。</p>
+
+      <div class="step-title">ステップ2 — 商品を選ぶ</div>
+      <p class="step-text">2つのカテゴリが表示されます：</p>
+      <div class="product-box">
+        <strong>AI 30-360</strong> — ロックアップ商品。30D / 90D / 180D / 360Dからお好みの期間を選択。ロック期間が長いほど、期待利回りが高くなります。<br><br>
+        <strong>AI Daily</strong> — フレキシブル商品。ロックアップなし、いつでも出金可能。まず試してみたい方におすすめです。
+      </div>
+
+      <div class="step-title">ステップ3 — 入金して開始</div>
+      <p class="step-text">投資したい金額を入力し、注文を確認すれば完了。翌日から収益が発生します。</p>
+
+      <hr class="divider">
+
+      <div class="section-title">どちらを選ぶべき？</div>
+      <div class="tip-box">
+        <strong>AiBot初心者の方は？</strong>AI Dailyから始めましょう。ロックアップなし、いつでも出金可能。ボットの実績を確認してから、長期プランに移行できます。<br><br>
+        <strong>すでに理解していて、より高い収益を求める方は？</strong>AI 360Dが公式推奨の商品で、期待利回りが最も高くなっています。
+      </div>
+
+      <div class="section-title">収益の確認方法</div>
+      <p class="step-text">AiBotページで「My AI Account」をクリック。運用資産総額、前日の収益、累計収益の3つの数字が表示されます。毎日更新されます。</p>
+
+      <hr class="divider">
+
+      <p class="footer-text">以上、3ステップで完了です。質問があれば下のコメント欄へどうぞ。</p>
+
+      <div class="cta-box">まだ登録がお済みでない方は、今すぐ登録してキャンペーン報酬を受け取りましょう。<br>
+        <a href="https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB" target="_blank">https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB</a>
+      </div>
+
+      <p class="footer-note">明日は初のAlpha情報をお届けします。今週注目すべきセクターとプロジェクトをご紹介。</p>
+    </div>
+
+    <!-- 한국어 -->
+    <div class="lang-section" id="lang-ko">
+      <h1>Day 3 — AiBot 3분 만에 시작하기</h1>
+      <p class="subtitle">어제는 AiBot이 제공하는 상품을 소개했습니다. 오늘은 실제로 시작하는 방법을 알아봅니다.</p>
+
+      <div class="step-title">1단계 — AiBot 열기</div>
+      <p class="step-text">BitradeX 계정에 로그인한 후, 상단 네비게이션 바에서 AiBot을 찾아 클릭하세요.</p>
+
+      <div class="step-title">2단계 — 상품 선택</div>
+      <p class="step-text">두 가지 카테고리가 표시됩니다:</p>
+      <div class="product-box">
+        <strong>AI 30-360</strong> — 락업 상품. 원하는 기간을 선택하세요: 30D / 90D / 180D / 360D. 락업 기간이 길수록 예상 수익률이 높아집니다.<br><br>
+        <strong>AI Daily</strong> — 유연한 상품. 락업 없이 언제든 출금 가능. 먼저 테스트해보고 싶은 분께 적합합니다.
+      </div>
+
+      <div class="step-title">3단계 — 입금 및 활성화</div>
+      <p class="step-text">투자할 금액을 입력하고 주문을 확인하면 끝. 다음 날부터 수익이 발생합니다.</p>
+
+      <hr class="divider">
+
+      <div class="section-title">어떤 걸 선택해야 할까요?</div>
+      <div class="tip-box">
+        <strong>AiBot이 처음이신가요?</strong> AI Daily로 시작하세요. 락업 없이 언제든 출금 가능하며, 봇의 실제 성과를 확인한 후 장기 플랜으로 전환할 수 있습니다.<br><br>
+        <strong>이미 익숙하고 더 높은 수익을 원하신다면?</strong> AI 360D가 공식 추천 상품이며, 예상 수익률이 가장 높습니다.
+      </div>
+
+      <div class="section-title">수익 확인 방법</div>
+      <p class="step-text">AiBot 페이지에서 "My AI Account"를 클릭하세요. 운용 자산 총액, 전일 수익, 누적 수익 세 가지 숫자가 표시됩니다. 매일 업데이트됩니다.</p>
+
+      <hr class="divider">
+
+      <p class="footer-text">이게 전부입니다. 세 단계면 끝. 질문이 있으면 아래에 남겨주세요.</p>
+
+      <div class="cta-box">아직 가입하지 않으셨나요? 지금 가입하시면 캠페인 보상을 받을 수 있습니다.<br>
+        <a href="https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB" target="_blank">https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB</a>
+      </div>
+
+      <p class="footer-note">내일은 첫 번째 Alpha 정보를 공개합니다. 이번 주 주목할 만한 섹터와 프로젝트를 소개합니다.</p>
+    </div>
+
+    <!-- Tiếng Việt -->
+    <div class="lang-section" id="lang-vi">
+      <h1>Day 3 — Bắt đầu sử dụng AiBot trong 3 phút</h1>
+      <p class="subtitle">Hôm qua chúng ta đã tìm hiểu về các sản phẩm của AiBot. Hôm nay hãy cùng xem cách bắt đầu thực tế.</p>
+
+      <div class="step-title">Bước 1 — Mở AiBot</div>
+      <p class="step-text">Đăng nhập tài khoản BitradeX, tìm AiBot trên thanh điều hướng phía trên và nhấp vào.</p>
+
+      <div class="step-title">Bước 2 — Chọn sản phẩm</div>
+      <p class="step-text">Bạn sẽ thấy hai danh mục:</p>
+      <div class="product-box">
+        <strong>AI 30-360</strong> — sản phẩm khóa vốn. Chọn thời hạn phù hợp: 30D / 90D / 180D / 360D. Khóa càng lâu, lợi nhuận kỳ vọng càng cao.<br><br>
+        <strong>AI Daily</strong> — sản phẩm linh hoạt. Không khóa vốn, rút bất cứ lúc nào. Phù hợp nếu bạn muốn thử trước.
+      </div>
+
+      <div class="step-title">Bước 3 — Nạp tiền và kích hoạt</div>
+      <p class="step-text">Nhập số tiền bạn muốn đầu tư, xác nhận lệnh, xong. Lợi nhuận bắt đầu tính từ ngày hôm sau.</p>
+
+      <hr class="divider">
+
+      <div class="section-title">Nên chọn sản phẩm nào?</div>
+      <div class="tip-box">
+        <strong>Mới dùng AiBot?</strong> Hãy bắt đầu với AI Daily. Không khóa vốn, rút bất cứ lúc nào, xem hiệu suất thực tế của bot trước khi cam kết dài hạn.<br><br>
+        <strong>Đã quen thuộc và muốn lợi nhuận cao hơn?</strong> AI 360D là sản phẩm được khuyến nghị chính thức với lợi nhuận kỳ vọng cao nhất.
+      </div>
+
+      <div class="section-title">Kiểm tra lợi nhuận ở đâu?</div>
+      <p class="step-text">Vào trang AiBot, nhấp "My AI Account". Bạn sẽ thấy ba con số: tổng tài sản quản lý, lợi nhuận hôm qua và lợi nhuận tích lũy. Cập nhật hàng ngày.</p>
+
+      <hr class="divider">
+
+      <p class="footer-text">Chỉ vậy thôi. Ba bước là xong. Có câu hỏi? Để lại bên dưới.</p>
+
+      <div class="cta-box">Chưa đăng ký? Đăng ký ngay để nhận phần thưởng chiến dịch.<br>
+        <a href="https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB" target="_blank">https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB</a>
+      </div>
+
+      <p class="footer-note">Ngày mai chúng tôi sẽ mang đến bản tin Alpha đầu tiên — các lĩnh vực và dự án đáng theo dõi trong tuần này.</p>
+    </div>
+
+    <!-- Português -->
+    <div class="lang-section" id="lang-pt">
+      <h1>Day 3 — Como começar a usar o AiBot em 3 minutos</h1>
+      <p class="subtitle">Ontem apresentamos o que o AiBot oferece. Hoje vamos ver como começar na prática.</p>
+
+      <div class="step-title">Passo 1 — Abra o AiBot</div>
+      <p class="step-text">Faça login na sua conta BitradeX, encontre o AiBot na barra de navegação superior e clique.</p>
+
+      <div class="step-title">Passo 2 — Escolha seu produto</div>
+      <p class="step-text">Você verá duas categorias:</p>
+      <div class="product-box">
+        <strong>AI 30-360</strong> — produtos com lock-up. Escolha o prazo desejado: 30D / 90D / 180D / 360D. Quanto maior o prazo, maior o rendimento esperado.<br><br>
+        <strong>AI Daily</strong> — produto flexível. Sem lock-up, saque quando quiser. Ideal para quem quer testar primeiro.
+      </div>
+
+      <div class="step-title">Passo 3 — Deposite e ative</div>
+      <p class="step-text">Insira o valor que deseja investir, confirme a ordem e pronto. Os rendimentos começam a partir do dia seguinte.</p>
+
+      <hr class="divider">
+
+      <div class="section-title">Qual devo escolher?</div>
+      <div class="tip-box">
+        <strong>Novo no AiBot?</strong> Comece com o AI Daily. Zero lock-up, saque a qualquer momento, e veja o desempenho do bot antes de se comprometer com um plano mais longo.<br><br>
+        <strong>Já conhece e quer retornos maiores?</strong> O AI 360D é o produto oficialmente recomendado, com o maior rendimento projetado.
+      </div>
+
+      <div class="section-title">Onde verificar seus rendimentos</div>
+      <p class="step-text">Acesse a página do AiBot e clique em "My AI Account". Você verá três números: total de ativos sob gestão, rendimentos de ontem e rendimentos acumulados. Atualização diária.</p>
+
+      <hr class="divider">
+
+      <p class="footer-text">É isso. Três passos e você está dentro. Dúvidas? Pergunte abaixo.</p>
+
+      <div class="cta-box">Ainda não se cadastrou? Registre-se agora para receber as recompensas da campanha.<br>
+        <a href="https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB" target="_blank">https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB</a>
+      </div>
+
+      <p class="footer-note">Amanhã trazemos nosso primeiro Alpha drop — setores e projetos para ficar de olho esta semana.</p>
+    </div>
+
+    <!-- Русский -->
+    <div class="lang-section" id="lang-ru">
+      <h1>Day 3 — Как начать использовать AiBot за 3 минуты</h1>
+      <p class="subtitle">Вчера мы рассказали о продуктах AiBot. Сегодня разберёмся, как начать на практике.</p>
+
+      <div class="step-title">Шаг 1 — Откройте AiBot</div>
+      <p class="step-text">Войдите в свой аккаунт BitradeX, найдите AiBot в верхней навигационной панели и нажмите.</p>
+
+      <div class="step-title">Шаг 2 — Выберите продукт</div>
+      <p class="step-text">Вы увидите две категории:</p>
+      <div class="product-box">
+        <strong>AI 30-360</strong> — продукты с блокировкой. Выберите срок: 30D / 90D / 180D / 360D. Чем дольше блокировка, тем выше ожидаемая доходность.<br><br>
+        <strong>AI Daily</strong> — гибкий продукт. Без блокировки, вывод в любое время. Отлично подходит, чтобы сначала протестировать.
+      </div>
+
+      <div class="step-title">Шаг 3 — Пополните счёт и активируйте</div>
+      <p class="step-text">Введите сумму инвестиции, подтвердите заявку — готово. Доход начисляется со следующего дня.</p>
+
+      <hr class="divider">
+
+      <div class="section-title">Что выбрать?</div>
+      <div class="tip-box">
+        <strong>Впервые пробуете AiBot?</strong> Начните с AI Daily. Без блокировки, вывод в любой момент. Сначала посмотрите на результаты бота, а затем решите, переходить ли на долгосрочный план.<br><br>
+        <strong>Уже знакомы и хотите большую доходность?</strong> AI 360D — официально рекомендованный продукт с максимальной ожидаемой доходностью.
+      </div>
+
+      <div class="section-title">Где проверить доход</div>
+      <p class="step-text">Перейдите на страницу AiBot и нажмите «My AI Account». Вы увидите три показателя: общая сумма активов в управлении, вчерашний доход и накопленный доход. Обновление ежедневно.</p>
+
+      <hr class="divider">
+
+      <p class="footer-text">Вот и всё. Три шага — и вы в деле. Вопросы? Пишите ниже.</p>
+
+      <div class="cta-box">Ещё не зарегистрировались? Зарегистрируйтесь сейчас, чтобы получить награды кампании.<br>
+        <a href="https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB" target="_blank">https://www.bitradex.ai/en/account/register?inviteCode=W2WKZB</a>
+      </div>
+
+      <p class="footer-note">Завтра мы представим первый Alpha-выпуск — секторы и проекты, за которыми стоит следить на этой неделе.</p>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function switchLang(lang) {
+  document.querySelectorAll('.lang-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.lang-bar a').forEach(a => a.classList.remove('active'));
+  document.getElementById('lang-' + lang).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+
+</body>
+</html>
